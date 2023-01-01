@@ -14,27 +14,33 @@
         <thead>
             <tr>
                 <th scope="col">id</th>
-                <th scope="col">First</th>
-                <th scope="col">Last</th>
-                <th scope="col">Handle</th>
+                <th scope="col">title</th>
+                <th scope="col">description</th>
+                <th scope="col">ParentId</th>
                 <th scope="col">Action</th>
             </tr>
         </thead>
         <tbody>
+            @foreach($data as $cate)
             <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
+                <th scope="row">{{$cate['id']}}</th>
+                <td>{{$cate['title']}}</td>
+                <td>{{$cate['description']}}</td>
+                <td>{{$cate['parentId']}}</td>
                 <td>
                     <button class="btn btn-primary">
-                        <a href="{{route('edit-category')}}">
+                        <a href="{{route('show-edit-category',$cate['id']) }}">
                             Edit
                         </a>
                     </button>
-                    <button class="btn btn-danger">Delete</button>
+                    <button class="btn btn-danger">
+                        <a href="{{route('delete-category',$cate['id']) }}">
+                            Delete
+                        </a>
+                    </button>
                 </td>
             </tr>
+            @endforeach
         </tbody>
     </table>
 </div>

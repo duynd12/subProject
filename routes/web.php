@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,17 +25,14 @@ Route::get('/view', function () {
 
 // product 
 
-Route::get('/product-manager', function () {
-    return view('products.productManager');
-})->name('product-manager');
+// Route::get('/product-manager', function () {
+//     return view('products.productManager');
+// })->name('product-manager');
 
 Route::get('/them-san-pham', function () {
     return view('products.addProduct');
 })->name('add-product');
 
-Route::get('/sua-san-pham', function () {
-    return view('products.editProduct');
-})->name('edit-product');
 
 
 // user
@@ -44,16 +43,29 @@ Route::get('/quan-ly-nguoi-dung', function () {
 
 // categories
 
-Route::get('/quan-ly-danh-muc', function () {
-    return view('categories.categoryManager');
-})->name('category-manager');
+// Route::get('/quan-ly-danh-muc', function () {
+//     return view('categories.categoryManager');
+// })->name('category-manager');
 
 
-Route::get('/them-danh-muc', function () {
-    return view('categories.addCategory');
-})->name('add-category');
+// Route::get('/show', [CategoryController::class, 'index'])->name('index');
+// Route::get('/product-manager', [ProductController::class, 'index'])->name('show-product');
 
+/// category
+Route::controller(CategoryController::class)->group(function () {
+    Route::get('/quan-ly-danh-muc', 'index')->name('category-manager');
+    Route::get('/quan-ly-danh-muc/{id}', 'edit')->name('show-edit-category');
+    Route::post('/edit-category/{id}', 'update')->name('edit-category');
+    Route::post('/createCategory', 'store')->name('store');
+    Route::get('/deleteCategory/{id}', 'destroy')->name('delete-category');
+});
 
-Route::get('/sua-danh-muc', function () {
-    return view('categories.editCategory');
-})->name('edit-category');
+//product
+Route::controller(ProductController::class)->group(function () {
+    Route::get('/product-manager', 'index')->name('show-product');
+    Route::get('/them-san-pham', 'create')->name('show-form-product');
+    Route::post('/createProduct', 'store')->name('add-product');
+    Route::get('/sua-san-pham/{id}', 'edit')->name('show-edit-product');
+    Route::post('/edit-product/{id}', 'update')->name('edit-product');
+    Route::get('/deleteProduct/{id}', 'destroy')->name('delete-product');
+});
