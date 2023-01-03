@@ -11,6 +11,8 @@ interface ProductInterface
     public function getProductById($id);
 
     public function createProduct(array $product);
+    public function createImageProduct(array $product);
+
     public function updateProduct($productId, array $product);
     public function deleteProduct($productId);
 }

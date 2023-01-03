@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ImageProductController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
@@ -58,6 +59,7 @@ Route::controller(CategoryController::class)->group(function () {
     Route::post('/edit-category/{id}', 'update')->name('edit-category');
     Route::post('/createCategory', 'store')->name('store');
     Route::get('/deleteCategory/{id}', 'destroy')->name('delete-category');
+    Route::get('/them-danh-muc', 'create')->name('add-category');
 });
 
 //product
@@ -69,3 +71,6 @@ Route::controller(ProductController::class)->group(function () {
     Route::post('/edit-product/{id}', 'update')->name('edit-product');
     Route::get('/deleteProduct/{id}', 'destroy')->name('delete-product');
 });
+
+Route::get('/them-anh-san-pham', [ImageProductController::class, 'index'])->name('image-manager');
+Route::post('/createImageProduct', [ImageProductController::class, 'store'])->name('image');

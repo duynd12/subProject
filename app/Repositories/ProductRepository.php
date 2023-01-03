@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Interfaces\ProductInterface;
+use App\Models\Image;
 use App\Models\Product;
 
 class ProductRepository implements ProductInterface
@@ -20,6 +21,11 @@ class ProductRepository implements ProductInterface
     public function createProduct(array $product)
     {
         return Product::create($product);
+    }
+
+    public function createImageProduct(array $image_product)
+    {
+        return Image::create($image_product);
     }
 
     public function updateProduct($productId, array $product)

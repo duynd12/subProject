@@ -6,9 +6,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Image extends Model
+class Attribute extends Model
 {
     use HasFactory, SoftDeletes;
-    protected $fillable = ['id', 'product_id', 'product_img'];
+
+    protected $fillable = ['id', 'name'];
     protected $date = ['deleted_at'];
 }

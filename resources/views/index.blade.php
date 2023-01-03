@@ -50,6 +50,12 @@
                             <li><i class="fa fa-puzzle-piece"></i><a href="{{route('add-product')}}">Thêm sản phẩm</a></li>
                         </ul> -->
                     </li>
+                    <li class="menu-item-has-children1">
+                        <a href="{{route('image-manager')}}" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-cogs"></i>Quản lý ảnh sản phẩm</a>
+                        <!-- <ul class="sub-menu children dropdown-menu">
+                            <li><i class="fa fa-puzzle-piece"></i><a href="{{route('add-product')}}">Thêm sản phẩm</a></li>
+                        </ul> -->
+                    </li>
                 </ul>
             </div><!-- /.navbar-collapse -->
         </nav>

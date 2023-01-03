@@ -46,9 +46,22 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
-        $result = $this->productRepository->createProduct($data);
-        if ($result) {
-            return redirect('product-manager');
+        $reslut = $this->productRepository->createProduct($data);
+
+        $product_id = $reslut->id;
+
+        if ($request->hasfile('images')) {
+            $images = $request->file('images');
+            foreach ($images as $image) {
+
+                $product_img = $image->getClientOriginalName();
+                $this->productRepository->createImageProduct(
+                    [
+                        'product_id' => $product_id,
+                        'product_img' => $product_img
+                    ]
+                );
+            }
         }
     }
 
