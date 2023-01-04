@@ -29,7 +29,7 @@
                         <a href="{{route('dashboard')}}"><i class="menu-icon fa fa-laptop"></i>Dashboard </a>
                     </li>
                     <li class="menu-title">UI elements</li><!-- /.menu-title -->
-                    <li class="menu-item-has-children dropdown">
+                    <li class="menu-item-has-children1 dropdown">
                         <a href="{{route('show-product')}}" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-cogs"></i>Quản lý sản phẩm</a>
                         <ul class="sub-menu children dropdown-menu">
                             <li><i class="fa fa-puzzle-piece"></i><a href="{{route('add-product')}}">Thêm sản phẩm</a></li>
@@ -51,7 +51,7 @@
                         </ul> -->
                     </li>
                     <li class="menu-item-has-children1">
-                        <a href="{{route('image-manager')}}" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-cogs"></i>Quản lý ảnh sản phẩm</a>
+                        <a href="{{route('order-manager')}}" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-cogs"></i>Quản lý hóa đơn</a>
                         <!-- <ul class="sub-menu children dropdown-menu">
                             <li><i class="fa fa-puzzle-piece"></i><a href="{{route('add-product')}}">Thêm sản phẩm</a></li>
                         </ul> -->

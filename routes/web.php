@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ImageProductController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,9 +18,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('dashboard.home');
-})->name('dashboard');
+// Route::get('/', function () {
+//     return view('dashboard.home');
+// })->name('dashboard');
 
 Route::get('/view', function () {
     return view('index');
@@ -72,5 +74,28 @@ Route::controller(ProductController::class)->group(function () {
     Route::get('/deleteProduct/{id}', 'destroy')->name('delete-product');
 });
 
-Route::get('/them-anh-san-pham', [ImageProductController::class, 'index'])->name('image-manager');
-Route::post('/createImageProduct', [ImageProductController::class, 'store'])->name('image');
+// Route::get('/them-anh-san-pham', [ImageProductController::class, 'index'])->name('image-manager');
+// Route::post('/createImageProduct', [ImageProductController::class, 'store'])->name('image');
+
+// Route::get('/quan-ly-user', [UserController::class, 'index'])->name('user-manager');
+
+// user -manager 
+
+Route::controller(UserController::class)->group(function () {
+    Route::get('/quan-ly-user', 'index')->name('user-manager');
+    Route::get('/deleteUser/{id}', 'destroy')->name('delete-user');
+    Route::get('/count', 'getCountUser')->name('count-user');
+});
+
+
+// dashboard
+Route::get('/', [UserController::class, 'getCountUser'])->name('dashboard');
+
+
+// order
+Route::get('/quan-ly-hoa-don', [OrderController::class, 'index'])->name('order-manager');
+
+Route::controller(OrderController::class)->group(function () {
+    Route::get('/quan-ly-hoa-don', 'index')->name('order-manager');
+    Route::get('/chi-tiet-hoa-don/{id}', 'getOrderById')->name('orderDetail');
+});

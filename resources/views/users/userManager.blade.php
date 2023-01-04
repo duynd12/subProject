@@ -9,23 +9,26 @@
         <thead>
             <tr>
                 <th scope="col">id</th>
-                <th scope="col">First</th>
-                <th scope="col">Last</th>
-                <th scope="col">Handle</th>
+                <th scope="col">UserName</th>
+                <th scope="col">Email</th>
                 <th scope="col">Action</th>
-
             </tr>
         </thead>
         <tbody>
+            @foreach($data as $user)
             <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
+                <th scope="row">{{$user['id']}}</th>
+                <td>{{$user['username']}}</td>
+                <td>{{$user['email']}}</td>
                 <td>
-                    <button class="btn btn-danger">Block</button>
+                    <button class="btn btn-danger">
+                        <a href="{{route('delete-user',$user['id'])}}">
+                            Block
+                        </a>
+                    </button>
                 </td>
             </tr>
+            @endforeach
         </tbody>
     </table>
 </div>
