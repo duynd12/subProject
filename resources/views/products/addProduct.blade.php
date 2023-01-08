@@ -8,6 +8,13 @@
         <label for="exampleInputEmail1">Tên Sản Phẩm : </label>
         <input type="text" class="form-control" id="exampleInputEmail1" name="name">
     </div>
+    <label for="cars" style="margin-bottom:10px;">Danh mục : </label>
+    <select name="categories[]" id="cars" multiple multiselect-hide-x="true">
+        @foreach($data as $category)
+        <option value="{{$category['id']}}">{{$category['title']}}</option>
+        @endforeach
+    </select>
+
     <div class="form-group">
         <label for="exampleInputEmail1">Giá : </label>
         <input type="text" class="form-control" id="exampleInputEmail1" name="price">

@@ -24,4 +24,10 @@ class OrderRepository implements OrderInterface
         $data = OrderDetail::where('order_id', $id)->get();
         return $data;
     }
+
+    public function getOrderWithPanigator($quantity)
+    {
+        $data  = Order::paginate($quantity);
+        return $data;
+    }
 }

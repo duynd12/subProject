@@ -11,7 +11,10 @@
                     </div>
                     <div class="stat-content">
                         <div class="text-left dib">
-                            <div class="stat-text">$<span class="count">{{$sum}}</span></div>
+                            <div class="stat-text">
+                                <i class="fa-solid fa-hand-holding-dollar"></i>
+                                <span class="count">{{$sum}}</span>
+                            </div>
                             <div class="stat-heading">Total Price</div>
                         </div>
                     </div>
@@ -29,7 +32,10 @@
                     </div>
                     <div class="stat-content">
                         <div class="text-left dib">
-                            <div class="stat-text"><span class="count">{{$user}}</span></div>
+                            <div class="stat-text">
+                                <i class="fa-regular fa-user"></i>
+                                <span class="count">{{$user}}</span>
+                            </div>
                             <div class="stat-heading">User</div>
                         </div>
                     </div>

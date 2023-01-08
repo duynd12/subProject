@@ -2,19 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Repositories\CategoryRepository;
 use Illuminate\Http\Request;
 use App\Repositories\ProductRepository;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
 
 
     private $productRepository;
+    private $categoryRepository;
 
-
-    public function __construct(ProductRepository $_productRepository)
+    public function __construct(ProductRepository $_productRepository, CategoryRepository $_categoryRepository)
     {
         $this->productRepository = $_productRepository;
+        $this->categoryRepository = $_categoryRepository;
     }
     /**
      * Display a listing of the resource.
@@ -23,8 +26,17 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $data = $this->productRepository->getAll();
-        return view('products.productManager', ['data' => $data]);
+        try {
+            $data = $this->productRepository->getProductWithPaginator(5);
+            $search_data  = request()->search;
+
+            if ($search_data) {
+                $data = $this->productRepository->getProductWithPaginator(5, $search_data);
+            }
+            return view('products.productManager', ['data' => $data]);
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
+        }
     }
 
     /**
@@ -34,7 +46,12 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('products.addProduct');
+        try {
+            $data = $this->categoryRepository->getAll();
+            return view('products.addProduct', ['data' => $data]);
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
+        }
     }
 
     /**
@@ -45,23 +62,41 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->all();
-        $reslut = $this->productRepository->createProduct($data);
+        try {
+            DB::beginTransaction();
 
-        $product_id = $reslut->id;
+            $data = $request->all();
+            $reslut = $this->productRepository->createProduct($data);
+            $product_id = $reslut->id;
 
-        if ($request->hasfile('images')) {
-            $images = $request->file('images');
-            foreach ($images as $image) {
-
-                $product_img = $image->getClientOriginalName();
-                $this->productRepository->createImageProduct(
-                    [
-                        'product_id' => $product_id,
-                        'product_img' => $product_img
-                    ]
-                );
+            if ($request['categories']) {
+                $categories = $request['categories'];
+                foreach ($categories as $category) {
+                    $this->productRepository->createCategoryProduct(
+                        [
+                            'product_id' => $product_id,
+                            'category_id' => $category
+                        ]
+                    );
+                }
             }
+            if ($request->hasfile('images')) {
+                $images = $request->file('images');
+                foreach ($images as $image) {
+
+                    $product_img = $image->getClientOriginalName();
+                    $this->productRepository->createImageProduct(
+                        [
+                            'product_id' => $product_id,
+                            'product_img' => $product_img
+                        ]
+                    );
+                }
+            }
+            DB::commit();
+        } catch (\throwable $th) {
+            throw $th;
+            DB::rollback();
         }
     }
 
@@ -84,8 +119,12 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        $data = $this->productRepository->getProductById($id);
-        return view('products.editProduct', ['data' => $data]);
+        try {
+            $data = $this->productRepository->getProductById($id);
+            return view('products.editProduct', ['data' => $data]);
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
+        }
     }
 
     /**
@@ -97,10 +136,14 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $data = $request->all();
-        $result = $this->productRepository->updateProduct($id, $data);
-        if ($result) {
-            return redirect('product-manager');
+        try {
+            $data = $request->all();
+            $result = $this->productRepository->updateProduct($id, $data);
+            if ($result) {
+                return redirect('product-manager');
+            }
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
         }
     }
 
@@ -112,9 +155,13 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        $result = $this->productRepository->deleteProduct($id);
-        if ($result) {
-            return redirect('product-manager');
+        try {
+            $result = $this->productRepository->deleteProduct($id);
+            if ($result) {
+                return redirect('product-manager');
+            }
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
         }
     }
 }

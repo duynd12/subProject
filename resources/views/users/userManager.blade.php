@@ -5,6 +5,10 @@
     <div class="user-manager-title">
         <h1>Quản lý người dùng</h1>
     </div>
+    <form action="{{route('user.index')}}" method="get">
+        <input type="text" name="search">
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
     <table class="table">
         <thead>
             <tr>
@@ -21,8 +25,8 @@
                 <td>{{$user['username']}}</td>
                 <td>{{$user['email']}}</td>
                 <td>
-                    <button class="btn btn-danger">
-                        <a href="{{route('delete-user',$user['id'])}}">
+                    <button class=" btn btn-danger">
+                        <a href="{{route('user.destroy',$user['id'])}}" style="color:white">
                             Block
                         </a>
                     </button>
@@ -31,5 +35,6 @@
             @endforeach
         </tbody>
     </table>
+    {!! $data->appends(Request::all())->links() !!}
 </div>
 @endsection

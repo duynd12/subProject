@@ -4,11 +4,16 @@
 <div class="product-manager">
     <div class="product-manager-title">
         <h1>Quản lý sản phẩm</h1>
+        <form action="{{route('product.index')}}" method="get">
+            <input type="text" name="search">
+            <button type="submit" class="btn btn-primary">Search</button>
+        </form>
         <button class="btn btn-primary">
-            <a href="{{route('show-form-product')}}">
+            <a href="{{route('product.create')}}" style="color:white">
                 Thêm sản phẩm
             </a>
         </button>
+
     </div>
     <table class="table">
         <thead>
@@ -31,12 +36,12 @@
                 <td>{{$pro['quantity']}}</td>
                 <td>
                     <button class="btn btn-primary">
-                        <a href="{{route('show-edit-product',$pro['id'])}}">
+                        <a href="{{route('product.edit',$pro['id'])}}" style="color:white">
                             Edit
                         </a>
                     </button>
                     <button class="btn btn-danger">
-                        <a href="{{route('delete-product',$pro['id'])}}">
+                        <a href="{{route('product.destroy',$pro['id'])}}" style="color:white">
                             Delete
                         </a>
                     </button>
@@ -45,5 +50,6 @@
             @endforeach
         </tbody>
     </table>
+    {{$data->links()}}
 </div>
 @endsection

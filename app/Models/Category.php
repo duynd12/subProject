@@ -13,4 +13,9 @@ class Category extends Model
     protected $fillable = ['id', 'title', 'description', 'parentId'];
 
     protected $dates = ['deleted_at'];
+
+    protected $hidden = [
+        'created_at',
+        'updated_at'
+    ];
 }

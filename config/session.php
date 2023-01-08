@@ -128,7 +128,7 @@ return [
 
     'cookie' => env(
         'SESSION_COOKIE',
-        Str::slug(env('APP_NAME', 'laravel'), '_').'_session'
+        Str::slug(env('APP_NAME', 'laravel'), '_') . '_session'
     ),
 
     /*
@@ -167,7 +167,7 @@ return [
     | the cookie from being sent to you when it can't be done securely.
     |
     */
-
+    // them toi luc 8h57 5/1/2023
     'secure' => env('SESSION_SECURE_COOKIE'),
 
     /*

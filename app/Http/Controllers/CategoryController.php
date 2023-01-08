@@ -23,8 +23,13 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $data = $this->categoryRepository->getAll();
-        return view('categories.categoryManager', ['data' => $data]);
+        try {
+
+            $data = $this->categoryRepository->getCateWithPaniator(5);
+            return view('categories.categoryManager', ['data' => $data]);
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
+        }
     }
 
     /**
@@ -34,7 +39,11 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view('categories.addCategory');
+        try {
+            return view('categories.addCategory');
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
+        }
     }
 
     /**
@@ -45,14 +54,18 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
+        try {
 
-        $data = $request->all();
-        $reslut = $this->categoryRepository->createCategory($data);
+            $data = $request->all();
+            $reslut = $this->categoryRepository->createCategory($data);
 
-        if ($reslut) {
-            return 'thanh cong';
-        } else {
-            return 'that bai';
+            if ($reslut) {
+                return 'thanh cong';
+            } else {
+                return 'that bai';
+            }
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
         }
         // return redirect('/');
     }
@@ -76,8 +89,13 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        $data = $this->categoryRepository->getCategoryById($id);
-        return view('categories.editCategory', ['data' => $data]);
+        try {
+
+            $data = $this->categoryRepository->getCategoryById($id);
+            return view('categories.editCategory', ['data' => $data]);
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
+        }
     }
 
     /**
@@ -89,10 +107,14 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $data = $request->all();
-        $result = $this->categoryRepository->updateCategory($id, $data);
-        if ($result) {
-            return redirect('/');
+        try {
+            $data = $request->all();
+            $result = $this->categoryRepository->updateCategory($id, $data);
+            if ($result) {
+                return redirect('/');
+            }
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
         }
     }
 
@@ -104,9 +126,13 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        $result = $this->categoryRepository->deleteCategory($id);
-        if ($result) {
-            return redirect('/quan-ly-danh-muc');
+        try {
+            $result = $this->categoryRepository->deleteCategory($id);
+            if ($result) {
+                return redirect('/quan-ly-danh-muc');
+            }
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
         }
     }
 }

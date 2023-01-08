@@ -7,9 +7,8 @@ use App\Models\Category;
 interface CategoryInterface
 {
     public function getAll();
-
+    public function getCateWithPaniator($quantity);
     public function getCategoryById($id);
-
     public function createCategory(array $category);
     public function updateCategory($categoryId, array $category);
     public function deleteCategory($categoryId);

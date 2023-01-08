@@ -33,4 +33,9 @@ class CategoryRepository implements CategoryInterface
         $category_id = Category::findOrFail($categoryId);
         return $category_id->delete();
     }
+
+    public function getCateWithPaniator($quantity)
+    {
+        return Category::paginate($quantity);
+    }
 }

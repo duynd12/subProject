@@ -5,7 +5,7 @@
     <div class="category-manager-title">
         <h1>Quản lý danh mục</h1>
         <button class="btn btn-primary">
-            <a href="{{route('add-category')}}">
+            <a href="{{route('category.create')}}" style="color:white">
                 Thêm danh mục
             </a>
         </button>
@@ -29,12 +29,12 @@
                 <td>{{$cate['parentId']}}</td>
                 <td>
                     <button class="btn btn-primary">
-                        <a href="{{route('show-edit-category',$cate['id']) }}">
+                        <a href="{{route('category.edit',$cate['id']) }}" style="color:white">
                             Edit
                         </a>
                     </button>
                     <button class="btn btn-danger">
-                        <a href="{{route('delete-category',$cate['id']) }}">
+                        <a href="{{route('category.destroy',$cate['id']) }}" style="color:white">
                             Delete
                         </a>
                     </button>
@@ -43,5 +43,6 @@
             @endforeach
         </tbody>
     </table>
+    {{$data->links()}}
 </div>
 @endsection

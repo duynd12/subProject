@@ -2,18 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Repositories\OrderRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
-class OrderController extends Controller
+class LoginController extends Controller
 {
-
-    private $orderRepository;
-
-    public function __construct(OrderRepository $_orderRepository)
-    {
-        $this->orderRepository =  $_orderRepository;
-    }
     /**
      * Display a listing of the resource.
      *
@@ -21,17 +16,7 @@ class OrderController extends Controller
      */
     public function index()
     {
-        try {
-
-            $data = $this->orderRepository->getOrderWithPanigator(5, '');
-            $search_data = request()->search;
-            if ($search_data) {
-                $data = $this->orderRepository->getOrderWithPanigator(5, $search_data);
-            }
-            return view('orders.orderManager', ['orders' => $data]);
-        } catch (\Exception $e) {
-            throw new \Exception($e->getMessage());
-        }
+        //
     }
 
     /**
@@ -41,7 +26,8 @@ class OrderController extends Controller
      */
     public function create()
     {
-        //
+        return view('checkLogin
+        ');
     }
 
     /**
@@ -97,15 +83,33 @@ class OrderController extends Controller
      */
     public function destroy($id)
     {
+        //
     }
-
-    public function getOrderById($id)
+    public function authenticate(Request $request)
     {
-        try {
-            $result =  $this->orderRepository->getOrderById($id);
-            return view('orders.orderDetail', ['data' => $result]);
-        } catch (\Exception $e) {
-            throw new \Exception($e->getMessage());
+        $credentials = $request->only('email', 'password');
+        $data = [
+            'email' => $request->email,
+            'password' => $request->password
+        ];
+        if (Auth::attempt($data)) {
+            // dd(Auth::user()->username);
+            return redirect('/');
         }
+    }
+    public function logout()
+    {
+        Auth::logout();
+    }
+    public function register()
+    {
+        $user = new User;
+
+        $user->username = 'nguyendangduy';
+        $user->email = 'example@domain.com';
+
+        $user->password = Hash::make('123');
+
+        $user->save();
     }
 }

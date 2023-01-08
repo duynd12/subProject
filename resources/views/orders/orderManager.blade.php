@@ -23,7 +23,7 @@
                 <td>{{$order['total_price']}}</td>
                 <td>
                     <button class="btn btn-primary">
-                        <a href="{{route('orderDetail',$order['id'])}}">
+                        <a href="{{route('order.getOrderById',$order['id'])}}" style="color:white">
                             Xem chi tiết
                         </a>
                     </button>
@@ -32,5 +32,6 @@
             @endforeach
         </tbody>
     </table>
+    {{$orders->links()}}
 </div>
 @endsection

@@ -11,7 +11,12 @@ class UserRepository implements UserInterface
     {
         return User::all();
     }
-
+    public function getUserWithPaginator($quantity, $key = '')
+    {
+        $data = User::where('username', 'like', '%' . $key . '%')->paginate($quantity);
+        // ->get()->toQuery()->paginate($quantity);
+        return $data;
+    }
     public function deleteUser($userId)
     {
         $user_id = User::findOrFail($userId);

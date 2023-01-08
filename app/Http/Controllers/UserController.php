@@ -23,7 +23,11 @@ class UserController extends Controller
      */
     public function index()
     {
-        $data = $this->userRepository->getAll();
+        $data = $this->userRepository->getUserWithPaginator(5);
+        $search_data = request()->search;
+        if ($search_data) {
+            $data = $this->userRepository->getUserWithPaginator(5, $search_data);
+        }
         return view('users.userManager', ['data' => $data]);
     }
 
@@ -98,17 +102,21 @@ class UserController extends Controller
 
     public function getCountUser()
     {
-        $user = $this->userRepository->getCountUser();
-        $order = $this->orderRepository->getTotalPrice();
+        try {
+            $user_count = $this->userRepository->getCountUser();
+            $order = $this->orderRepository->getTotalPrice();
 
-        $sum = 0;
-        foreach ($order as $price) {
-            $sum += $price;
+            $total_price = 0;
+            foreach ($order as $price) {
+                $total_price += $price;
+            }
+
+            return view('dashboard.home', [
+                'user' => $user_count,
+                'sum' => $total_price
+            ]);
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
         }
-
-        return view('dashboard.home', [
-            'user' => $user,
-            'sum' => $sum
-        ]);
     }
 }

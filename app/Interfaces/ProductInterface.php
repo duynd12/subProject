@@ -2,13 +2,12 @@
 
 namespace App\Interfaces;
 
-use App\Models\Product;
-
 interface ProductInterface
 {
     public function getAll();
 
     public function getProductById($id);
+    public function getProductWithPaginator($quantity, $key);
 
     public function createProduct(array $product);
     public function createImageProduct(array $product);

@@ -20,6 +20,16 @@ Googel Fonts  */
 
 */
 @import url("https://fonts.googleapis.com/css?family=Open+Sans:400,600,700");
+
+.stat-heading{
+    font-size:20px;
+}
+.multiselect-dropdown{
+    width:300px;
+}
+
+
+
 .title{
     margin-bottom: 10px;
 }
@@ -2789,7 +2799,7 @@ header .form-inline .search-form.close {
 
 .stat-widget-five .stat-heading {
     color: #99abb4;
-    font-size: 14px;
+    font-size: 22px;
 }
 
 .horizontal:before {

@@ -2,18 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Repositories\OrderRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use App\Models\Admin;
+use Illuminate\Support\Facades\Auth;
 
-class OrderController extends Controller
+class AdminController extends Controller
 {
-
-    private $orderRepository;
-
-    public function __construct(OrderRepository $_orderRepository)
-    {
-        $this->orderRepository =  $_orderRepository;
-    }
     /**
      * Display a listing of the resource.
      *
@@ -21,17 +16,7 @@ class OrderController extends Controller
      */
     public function index()
     {
-        try {
-
-            $data = $this->orderRepository->getOrderWithPanigator(5, '');
-            $search_data = request()->search;
-            if ($search_data) {
-                $data = $this->orderRepository->getOrderWithPanigator(5, $search_data);
-            }
-            return view('orders.orderManager', ['orders' => $data]);
-        } catch (\Exception $e) {
-            throw new \Exception($e->getMessage());
-        }
+        //
     }
 
     /**
@@ -41,7 +26,7 @@ class OrderController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.register');
     }
 
     /**
@@ -50,11 +35,49 @@ class OrderController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function authenticate(Request $request)
     {
-        //
+        $data = [
+            'username' => $request->username,
+            'password' => $request->password
+        ];
+        if (Auth::attempt($data)) {
+            return redirect()->route('dashboard');
+        }
     }
 
+    public function store(Request $request)
+    {
+        try {
+            $data = $request->all();
+            $data['password'] = Hash::make($request->password);
+            $data['phanquyen'] = 'view';
+            $result = Admin::create($data);
+            if ($result) {
+                return redirect('admin_login');
+            }
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
+        }
+
+
+        // $user->username = 'nguyendangduy';
+        // $user->email = 'example@domain.com';
+
+        // $user->password = Hash::make('123');
+
+        // $user->save();
+    }
+    public function showFormLogin()
+    {
+        return view('admin.login');
+    }
+    public function logout()
+    {
+        if (Auth::logout()) {
+            return redirect()->route('admin.showFormLogin');
+        }
+    }
     /**
      * Display the specified resource.
      *
@@ -97,15 +120,6 @@ class OrderController extends Controller
      */
     public function destroy($id)
     {
-    }
-
-    public function getOrderById($id)
-    {
-        try {
-            $result =  $this->orderRepository->getOrderById($id);
-            return view('orders.orderDetail', ['data' => $result]);
-        } catch (\Exception $e) {
-            throw new \Exception($e->getMessage());
-        }
+        //
     }
 }

@@ -2,7 +2,7 @@
 
 @section('content')
 <h1 class="title">Sửa Danh Mục</h1>
-<form action="{{route('edit-category',$data['id'])}}" method="post" enctype="multipart/form-data">
+<form action="{{route('category.update',$data['id'])}}" method="post" enctype="multipart/form-data">
     @csrf
     <div class="form-group">
         <label for="exampleInputEmail1">Tên Sản Phẩm : </label>
