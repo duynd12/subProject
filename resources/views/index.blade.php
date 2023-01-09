@@ -297,7 +297,7 @@
         <!-- /.content -->
         <div class="clearfix"></div>
         <!-- Footer -->
-        <footer class="site-footer" style="bottom:0;position:fixed">
+        <footer class="site-footer" style="margin-top:30px">
             <div class="footer-inner bg-white">
                 <div class="row">
                     <div class="col-sm-6">

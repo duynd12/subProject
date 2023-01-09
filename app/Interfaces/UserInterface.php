@@ -8,6 +8,6 @@ interface UserInterface
 {
     public function getAll();
     public function getUserWithPaginator($quantity, $key);
-    public function getCountUser();
+    // public function getCountUser();
     public function deleteUser($userId);
 }

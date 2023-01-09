@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Interfaces\CategoryInterface;
 use App\Models\Category;
+use Illuminate\Support\Facades\DB;
 
 class CategoryRepository implements CategoryInterface
 {
@@ -34,8 +35,16 @@ class CategoryRepository implements CategoryInterface
         return $category_id->delete();
     }
 
-    public function getCateWithPaniator($quantity)
+    public function getCateWithPaniator($quantity, $key = '')
     {
-        return Category::paginate($quantity);
+        $data = Category::where('title', 'like', '%' . $key . '%')->paginate($quantity);
+        return $data;
+    }
+
+    public function deleteCategoryProduct($_id)
+    {
+        return DB::table('category_products')
+            ->where('category_id', '=', $_id)
+            ->delete();
     }
 }

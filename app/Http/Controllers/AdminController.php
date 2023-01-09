@@ -51,7 +51,6 @@ class AdminController extends Controller
         try {
             $data = $request->all();
             $data['password'] = Hash::make($request->password);
-            $data['phanquyen'] = 'view';
             $result = Admin::create($data);
             if ($result) {
                 return redirect('admin_login');

@@ -14,4 +14,6 @@ interface ProductInterface
 
     public function updateProduct($productId, array $product);
     public function deleteProduct($productId);
+    public function deleteCategoryProduct($productId);
+    public function deleteImageProduct($product_id);
 }

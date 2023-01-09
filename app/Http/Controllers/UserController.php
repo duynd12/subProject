@@ -2,19 +2,24 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Repositories\UserRepository;
 use App\Repositories\OrderRepository;
+use App\Repositories\ProductRepository;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
     private $userRepository;
     private $orderRepository;
+    private $productRepository;
 
-    public function __construct(UserRepository $_userRepository, OrderRepository $_orderRepository)
+    public function __construct(UserRepository $_userRepository, OrderRepository $_orderRepository, ProductRepository $_productRepository)
     {
         $this->userRepository = $_userRepository;
         $this->orderRepository = $_orderRepository;
+        $this->productRepository = $_productRepository;
     }
     /**
      * Display a listing of the resource.
@@ -23,12 +28,16 @@ class UserController extends Controller
      */
     public function index()
     {
-        $data = $this->userRepository->getUserWithPaginator(5);
-        $search_data = request()->search;
-        if ($search_data) {
-            $data = $this->userRepository->getUserWithPaginator(5, $search_data);
+        try {
+            $data = $this->userRepository->getUserWithPaginator(5);
+            $search_data = request()->search;
+            if ($search_data) {
+                $data = $this->userRepository->getUserWithPaginator(5, $search_data);
+            }
+            return view('users.userManager', ['data' => $data]);
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
         }
-        return view('users.userManager', ['data' => $data]);
     }
 
     /**
@@ -94,17 +103,34 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        $result = $this->userRepository->deleteUser($id);
-        if ($result) {
-            return redirect('quan-ly-user');
+        try {
+
+            $result = $this->userRepository->deleteUser($id);
+            if ($result) {
+                return redirect('quan-ly-user');
+            }
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
         }
     }
-
+    public function unLockUser($id)
+    {
+        try {
+            $data =  User::withTrashed()->where('id', $id)->restore();
+            if ($data) {
+                return redirect()->route('user.index');
+            }
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
+        }
+    }
     public function getCountUser()
     {
         try {
-            $user_count = $this->userRepository->getCountUser();
+            $user_count = $this->userRepository->getAll()->count();
             $order = $this->orderRepository->getTotalPrice();
+            $total_bills = $this->orderRepository->getAll()->count();
+            $total_product = $this->productRepository->getAll()->count();
 
             $total_price = 0;
             foreach ($order as $price) {
@@ -113,10 +139,20 @@ class UserController extends Controller
 
             return view('dashboard.home', [
                 'user' => $user_count,
-                'sum' => $total_price
+                'sum' => $total_price,
+                'bills' => $total_bills,
+                'total_product' => $total_product,
             ]);
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
         }
+    }
+
+    public function getUserById($user_id)
+    {
+        // $user = new User();
+        $user = User::find($user_id)->profile;
+        return view('users.userDetail', ['data' => $user]);
+        // dd(User::find($user_id)->profile);
     }
 }

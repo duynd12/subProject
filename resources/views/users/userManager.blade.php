@@ -4,11 +4,11 @@
 <div class="user-manager">
     <div class="user-manager-title">
         <h1>Quản lý người dùng</h1>
+        <form action="{{route('user.index')}}" method="get">
+            <input type="text" name="search">
+            <button type="submit" class="btn btn-primary">Search</button>
+        </form>
     </div>
-    <form action="{{route('user.index')}}" method="get">
-        <input type="text" name="search">
-        <button type="submit" class="btn btn-primary">Search</button>
-    </form>
     <table class="table">
         <thead>
             <tr>
@@ -21,16 +21,36 @@
         <tbody>
             @foreach($data as $user)
             <tr>
-                <th scope="row">{{$user['id']}}</th>
-                <td>{{$user['username']}}</td>
-                <td>{{$user['email']}}</td>
+                <th scope="row">{{$user->id}}</th>
+                <td>{{$user->username}}</td>
+                <td>{{$user->email}}</td>
                 <td>
-                    <button class=" btn btn-danger">
-                        <a href="{{route('user.destroy',$user['id'])}}" style="color:white">
+                    <button class="btn btn-primary">
+                        <a href="{{route('user.getUserById',$user->id)}}" style="color:white">
+                            Xem Chi Tiết
+                        </a>
+                    </button>
+                </td>
+                @if(Auth::user()->phanquyen==='admin')
+                @if(($user->deleted_at) === null)
+                <td>
+                    <button class="btn btn-danger">
+                        <a href="{{route('user.destroy',$user->id)}}" style="color:white">
                             Block
                         </a>
                     </button>
                 </td>
+                @endif
+                @if(($user->deleted_at) !== null)
+                <td>
+                    <button class="btn btn-primary">
+                        <a href="{{route('user.unlock',$user->id)}}" style="color:white">
+                            Mở Block
+                        </a>
+                    </button>
+                </td>
+                @endif
+                @endif
             </tr>
             @endforeach
         </tbody>

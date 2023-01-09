@@ -13,4 +13,9 @@ class User  extends Authenticatable
     use HasFactory, SoftDeletes;
     protected $primaryKey = 'id';
     protected $date = ['deleted_at'];
+
+    public function profile()
+    {
+        return $this->hasOne(Profile::class);
+    }
 }

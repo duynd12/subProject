@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CategoryRequest;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Repositories\CategoryRepository;
+use Illuminate\Support\Facades\DB;
 
 class CategoryController extends Controller
 {
@@ -24,8 +26,11 @@ class CategoryController extends Controller
     public function index()
     {
         try {
-
             $data = $this->categoryRepository->getCateWithPaniator(5);
+            $search_data = request()->search;
+            if ($search_data) {
+                $data = $this->categoryRepository->getCateWithPaniator(5, $search_data);
+            }
             return view('categories.categoryManager', ['data' => $data]);
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
@@ -52,7 +57,7 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CategoryRequest $request)
     {
         try {
 
@@ -127,12 +132,16 @@ class CategoryController extends Controller
     public function destroy($id)
     {
         try {
-            $result = $this->categoryRepository->deleteCategory($id);
-            if ($result) {
+            DB::beginTransaction();
+            $result_dele = $this->categoryRepository->deleteCategory($id);
+            $reusult_dele_cate_pro = $this->categoryRepository->deleteCategoryProduct($id);
+            if ($result_dele && $reusult_dele_cate_pro > 0) {
                 return redirect('/quan-ly-danh-muc');
             }
+            DB::commit();
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
+            DB::rollBack();
         }
     }
 }

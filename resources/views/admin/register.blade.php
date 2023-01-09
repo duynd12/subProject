@@ -34,7 +34,11 @@
                                 <label class="form-control-label">PASSWORD</label>
                                 <input type="password" class="form-control" name="password">
                             </div>
-
+                            <label for="" style="color:white;display:flex;justify-content: center;">Phân Quyền : </label>
+                            <select class="form-select" name="phanquyen" style="width:30%;margin:0 auto;margin-bottom:30px" aria-label="Default select example">
+                                <option selected value="view">View</option>
+                                <option value="admin">Admin</option>
+                            </select>
                             <div class="col-lg-12 loginbttm">
                                 <div class="col-lg-6 login-btm login-text">
                                     <!-- Error Message -->

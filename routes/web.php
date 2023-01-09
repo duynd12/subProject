@@ -65,28 +65,37 @@ Route::middleware('checkLogin')->group(function () {
     // category
     Route::controller(CategoryController::class)->group(function () {
         Route::get('/quan-ly-danh-muc', 'index')->name('category.index');
-        Route::get('/quan-ly-danh-muc/{id}', 'edit')->name('category.edit');
-        Route::post('/edit-category/{id}', 'update')->name('category.update');
-        Route::post('/createCategory', 'store')->name('category.store');
-        Route::get('/deleteCategory/{id}', 'destroy')->name('category.destroy');
-        Route::get('/them-danh-muc', 'create')->name('category.create');
+
+        Route::middleware('checkRole')->group(function () {
+            Route::get('/quan-ly-danh-muc/{id}', 'edit')->name('category.edit');
+            Route::post('/edit-category/{id}', 'update')->name('category.update');
+            Route::post('/createCategory', 'store')->name('category.store');
+            Route::get('/deleteCategory/{id}', 'destroy')->name('category.destroy');
+            Route::get('/them-danh-muc', 'create')->name('category.create');
+        });
     });
 
     // product
     Route::controller(ProductController::class)->group(function () {
         Route::get('/product-manager', 'index')->name('product.index');
-        Route::get('/them-san-pham', 'create')->name('product.create');
-        Route::post('/createProduct', 'store')->name('prodcut.store');
-        Route::get('/sua-san-pham/{id}', 'edit')->name('product.edit');
-        Route::post('/edit-product/{id}', 'update')->name('product.update');
-        Route::get('/deleteProduct/{id}', 'destroy')->name('product.destroy');
+        Route::middleware('checkRole')->group(function () {
+            Route::get('/them-san-pham', 'create')->name('product.create');
+            Route::post('/createProduct', 'store')->name('prodcut.store');
+            Route::get('/sua-san-pham/{id}', 'edit')->name('product.edit');
+            Route::post('/edit-product/{id}', 'update')->name('product.update');
+            Route::get('/deleteProduct/{id}', 'destroy')->name('product.destroy');
+        });
     });
 
     // user 
     Route::controller(UserController::class)->group(function () {
         Route::get('/quan-ly-user', 'index')->name('user.index');
-        Route::get('/deleteUser/{id}', 'destroy')->name('user.destroy');
-        Route::get('/count', 'getCountUser')->name('user.getCountUser');
+        Route::middleware('checkRole')->group(function () {
+            Route::get('/deleteUser/{id}', 'destroy')->name('user.destroy');
+            Route::get('/count', 'getCountUser')->name('user.getCountUser');
+            Route::get('/unlock/{id}', 'unLockUser')->name('user.unlock');
+            Route::get('/chi-tiet-user/{id}', 'getUserById')->name('user.getUserById');
+        });
     });
 
     //order

@@ -27,8 +27,14 @@ Googel Fonts  */
 .multiselect-dropdown{
     width:300px;
 }
-
-
+.user-manager-title{
+    display: flex;
+    justify-content: space-between;
+}
+.category-manager-title{
+    display: flex;
+    justify-content: space-between;
+}
 
 .title{
     margin-bottom: 10px;

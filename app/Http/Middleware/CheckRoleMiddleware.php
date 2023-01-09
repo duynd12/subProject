@@ -5,8 +5,9 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 
-class CheckLoginMiddleware
+class CheckRoleMiddleware
 {
     /**
      * Handle an incoming request.
@@ -17,11 +18,9 @@ class CheckLoginMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-
-        // dd(Auth::user()->phanquyen);
-        if (Auth::check()) {
+        if (Auth::user()->phanquyen === 'admin') {
             return $next($request);
         }
-        return redirect()->route('admin.showFormLogin');
+        return Redirect::back();
     }
 }

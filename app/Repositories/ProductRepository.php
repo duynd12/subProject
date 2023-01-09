@@ -6,7 +6,7 @@ use App\Interfaces\ProductInterface;
 use App\Models\Image;
 use App\Models\Product;
 use App\Models\CategoryProduct;
-
+use Illuminate\Support\Facades\DB;
 
 class ProductRepository implements ProductInterface
 {
@@ -17,6 +17,11 @@ class ProductRepository implements ProductInterface
     public function getProductWithPaginator($quantity, $key = '')
     {
         $data = Product::where('name', 'like', '%' . $key . '%')->paginate($quantity);
+        // $data = DB::table('products')->where('name', 'like', '%' . $key . '%')
+        //     ->join('images', 'products.id', '=', 'images.product_id')
+        //     ->paginate($quantity);
+        // $data = Product::images()->get();
+        // dd($data);
         return $data;
     }
 
@@ -44,10 +49,22 @@ class ProductRepository implements ProductInterface
     public function deleteProduct($productId)
     {
         $product_id = Product::findOrFail($productId);
-        return $product_id->delete();
+        return $product_id->forceDelete();
+    }
+    public function deleteCategoryProduct($_id)
+    {
+        return DB::table('category_products')
+            ->where('product_id', '=', $_id)
+            ->delete();
     }
     public function createCategoryProduct(array $category_product)
     {
         return CategoryProduct::create($category_product);
+    }
+    public function deleteImageProduct($product_id)
+    {
+        return DB::table('images')
+            ->where('product_id', '=', $product_id)
+            ->delete();
     }
 }

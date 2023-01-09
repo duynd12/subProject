@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProductRequest;
 use App\Repositories\CategoryRepository;
 use Illuminate\Http\Request;
 use App\Repositories\ProductRepository;
@@ -60,7 +61,7 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
         try {
             DB::beginTransaction();
@@ -156,12 +157,17 @@ class ProductController extends Controller
     public function destroy($id)
     {
         try {
-            $result = $this->productRepository->deleteProduct($id);
-            if ($result) {
-                return redirect('product-manager');
-            }
+            DB::beginTransaction();
+            $result_dele = $this->productRepository->deleteProduct($id);
+            $result_dele_cate_pro = $this->productRepository->deleteCategoryProduct($id);
+            $result_dele_img = $this->productRepository->deleteImageProduct($id);
+            // if ($result_dele > 0 && $result_dele_cate_pro > 0 && $result_dele_img > 0) {
+            return redirect('product-manager');
+            // }
+            DB::commit();
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
+            DB::rollBack();
         }
     }
 }
