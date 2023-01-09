@@ -37,12 +37,6 @@
                 <td>{{$pro['price']}}</td>
                 <td>{{$pro['description']}}</td>
                 <td>{{$pro['quantity']}}</td>
-                <td>
-                    @foreach($pro ->images as $image)
-                    <img src="{{asset('/upload'."$image->product_img")}}">
-                    @endforeach
-                </td>
-
                 @if(Auth::user()->phanquyen==='admin')
                 <td>
                     <button class="btn btn-primary">

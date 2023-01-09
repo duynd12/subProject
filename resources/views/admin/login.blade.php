@@ -21,13 +21,19 @@
                         <use xlink:href="#icon-user"></use>
                     </svg><span class="hidden">Username</span></label>
                 <input autocomplete="username" id="username" type="text" name="username" class="form__input" placeholder="Username">
+                    @error('username')
+                        <span style="color:red">{{$message}}</span>
+                    @enderror
             </div>
 
             <div class="form__field">
                 <label for="login__password"><svg class="icon">
                         <use xlink:href="#icon-lock"></use>
                     </svg><span class="hidden">Password</span></label>
-                <input id="login__password" type="text" name="password" class="form__input" placeholder="Password">
+                <input id="login__password" type="password" name="password" class="form__input" placeholder="Password">
+             @error('password')
+                        <span style="color:red">{{$message}}</span>
+                    @enderror
             </div>
 
             <div class="form__field">

@@ -17,11 +17,6 @@ class ProductRepository implements ProductInterface
     public function getProductWithPaginator($quantity, $key = '')
     {
         $data = Product::where('name', 'like', '%' . $key . '%')->paginate($quantity);
-        // $data = DB::table('products')->where('name', 'like', '%' . $key . '%')
-        //     ->join('images', 'products.id', '=', 'images.product_id')
-        //     ->paginate($quantity);
-        // $data = Product::images()->get();
-        // dd($data);
         return $data;
     }
 
@@ -42,14 +37,13 @@ class ProductRepository implements ProductInterface
 
     public function updateProduct($productId, array $product)
     {
-
         return Product::find($productId)->update($product);
     }
 
     public function deleteProduct($productId)
     {
         $product_id = Product::findOrFail($productId);
-        return $product_id->forceDelete();
+        return $product_id->delete();
     }
     public function deleteCategoryProduct($_id)
     {

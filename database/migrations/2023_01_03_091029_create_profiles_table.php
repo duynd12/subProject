@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('gender');
             $table->text('avatar');
             $table->date('dob');
+            $table->index(['user_id', 'name', 'numberPhone']);
             $table->softDeletes();
             $table->timestamps();
         });

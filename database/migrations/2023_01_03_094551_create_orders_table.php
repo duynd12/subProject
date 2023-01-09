@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->float('total_price');
+            $table->index(['id', 'user_id']);
             $table->softDeletes();
             $table->timestamps();
         });

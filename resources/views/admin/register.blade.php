@@ -29,10 +29,16 @@
                             <div class="form-group">
                                 <label class="form-control-label">USERNAME</label>
                                 <input type="text" class="form-control" name="username">
+                                 @error('username')
+                                <span style="color:red">{{$message}}</span>
+                            @enderror
                             </div>
                             <div class="form-group">
                                 <label class="form-control-label">PASSWORD</label>
                                 <input type="password" class="form-control" name="password">
+                                @error('password')
+                                <span style="color:red">{{$message}}</span>
+                            @enderror
                             </div>
                             <label for="" style="color:white;display:flex;justify-content: center;">Phân Quyền : </label>
                             <select class="form-select" name="phanquyen" style="width:30%;margin:0 auto;margin-bottom:30px" aria-label="Default select example">

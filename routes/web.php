@@ -65,7 +65,6 @@ Route::middleware('checkLogin')->group(function () {
     // category
     Route::controller(CategoryController::class)->group(function () {
         Route::get('/quan-ly-danh-muc', 'index')->name('category.index');
-
         Route::middleware('checkRole')->group(function () {
             Route::get('/quan-ly-danh-muc/{id}', 'edit')->name('category.edit');
             Route::post('/edit-category/{id}', 'update')->name('category.update');

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->text('product_img');
             $table->foreignId('product_id')->constrained('products')->onDelete('cascade');
+            $table->index('id', 'product_id');
             $table->softDeletes();
             $table->timestamps();
         });

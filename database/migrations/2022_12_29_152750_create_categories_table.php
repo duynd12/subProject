@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('title');
             $table->string('description');
             $table->integer('parentId');
+            $table->index(['id', 'title']);
             $table->softDeletes();
             $table->timestamps();
         });

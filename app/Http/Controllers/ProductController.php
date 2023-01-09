@@ -90,7 +90,6 @@ class ProductController extends Controller
                     $path_name = $file_name . '.' . $extention;
                     $image->move($uploadPath, $path_name);
 
-                    // $product_img = $image->getClientOriginalName();
                     $this->productRepository->createImageProduct(
                         [
                             'product_id' => $product_id,
@@ -167,7 +166,7 @@ class ProductController extends Controller
             $result_dele = $this->productRepository->deleteProduct($id);
             $result_dele_cate_pro = $this->productRepository->deleteCategoryProduct($id);
             $result_dele_img = $this->productRepository->deleteImageProduct($id);
-            if ($result_dele >= 0 && $result_dele_cate_pro >= 0 && $result_dele_img >= 0) {
+            if ($result_dele) {
                 return redirect()->route('product.index');
             }
             DB::commit();

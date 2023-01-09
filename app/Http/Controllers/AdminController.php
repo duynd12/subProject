@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AdminRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Admin;
@@ -35,7 +36,7 @@ class AdminController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function authenticate(Request $request)
+    public function authenticate(AdminRequest $request)
     {
         $data = [
             'username' => $request->username,
@@ -46,7 +47,7 @@ class AdminController extends Controller
         }
     }
 
-    public function store(Request $request)
+    public function store(AdminRequest $request)
     {
         try {
             $data = $request->all();
@@ -58,14 +59,6 @@ class AdminController extends Controller
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
         }
-
-
-        // $user->username = 'nguyendangduy';
-        // $user->email = 'example@domain.com';
-
-        // $user->password = Hash::make('123');
-
-        // $user->save();
     }
     public function showFormLogin()
     {
@@ -73,9 +66,8 @@ class AdminController extends Controller
     }
     public function logout()
     {
-        if (Auth::logout()) {
-            return redirect()->route('admin.showFormLogin');
-        }
+        Auth::logout();
+        return redirect()->route('admin.showFormLogin');
     }
     /**
      * Display the specified resource.

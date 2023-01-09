@@ -14,14 +14,10 @@ class UserRepository implements UserInterface
     }
     public function getUserWithPaginator($quantity, $key = '')
     {
-        // $data = User::where('username', 'like', '%' . $key . '%')->paginate($quantity);
-
         $data = DB::table('users')->where([
             ['username', 'like', '%' . $key . '%'],
-            // ['deleted_at', '<>', 'null'],
         ])->paginate($quantity);
-        // dd($data);
-        // ->get()->toQuery()->paginate($quantity);
+
         return $data;
     }
     public function deleteUser($userId)

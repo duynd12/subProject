@@ -150,9 +150,7 @@ class UserController extends Controller
 
     public function getUserById($user_id)
     {
-        // $user = new User();
         $user = User::find($user_id)->profile;
         return view('users.userDetail', ['data' => $user]);
-        // dd(User::find($user_id)->profile);
     }
 }

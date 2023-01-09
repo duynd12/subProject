@@ -19,6 +19,7 @@ return new class extends Migration
             $table->float('price');
             $table->string('description');
             $table->integer('quantity');
+            $table->index(['id', 'name']);
             $table->softDeletes();
             $table->timestamps();
         });

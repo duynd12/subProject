@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('username');
             $table->string('password');
             $table->string('email');
+            $table->index(['id', 'username', 'password', 'email']);
             $table->softDeletes();
             $table->timestamps();
         });
